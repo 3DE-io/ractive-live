@@ -8,12 +8,22 @@ export default class Component {
 			code: data.html || '',
 			mode: 'handlebars',
 			preprocess: Ractive.parse,
+			ext: 'html',
 			result: ''
 		};
 
 		this.style = {
 			code: data.scss || '',
-			mode: 'css',
+			mode: 'scss',
+			preprocess: data => {
+				if ( !data ) { return; }
+				let css;
+				Sass.compile( data, result => {
+					css = result.text;
+				});
+				return css;
+			},
+			ext: 'scss',
 			result: ''
 		};
 
@@ -23,6 +33,7 @@ export default class Component {
 			preprocess: data => {
 				return ( new Function(`return ${data};`) )();
 			},
+			ext: 'data',
 			result: ''
 		};
 
@@ -37,6 +48,7 @@ export default class Component {
 				fn( comp, Ractive );
 				return comp.exports || {};
 			},
+			ext: 'js',
 			result: ''
 		};
 

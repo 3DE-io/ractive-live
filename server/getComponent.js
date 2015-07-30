@@ -19,6 +19,7 @@ exports['default'] = function (directory, cb) {
 	var name = _path2['default'].basename(directory);
 
 	_fs2['default'].readdir(directory, function (err, files) {
+		// console.log( 'files for', directory, files );
 		if (err) {
 			if (err.code === 'ENOENT') {
 				cb(null, {});
@@ -26,40 +27,56 @@ exports['default'] = function (directory, cb) {
 				cb(err);
 			}
 			return;
-		}
+		} else {
+			var _ret = (function () {
 
-		var results = {},
-		    filesToGet = [],
-		    extensions = ['html', 'scss', 'js', 'data'];
+				console.log('files:', files);
 
-		extensions.forEach(function (ext) {
-			var fileName = name + '.' + ext;
-			if (~files.indexOf(fileName)) {
-				filesToGet.push({
-					ext: ext,
-					path: _path2['default'].join(directory, fileName)
+				if (!files) {
+					cb(null, {});
+					return {
+						v: undefined
+					};
+				}
+
+				var results = {},
+				    filesToGet = [],
+				    extensions = ['html', 'scss', 'css', 'js', 'data'];
+
+				extensions.forEach(function (ext) {
+					var fileName = name + '.' + ext;
+					if (~files.indexOf(fileName)) {
+						filesToGet.push({
+							ext: ext,
+							path: _path2['default'].join(directory, fileName)
+						});
+					}
 				});
-			}
-		});
 
-		if (!filesToGet.length) {
-			return cb(null, {});
+				if (!filesToGet.length) {
+					return {
+						v: cb(null, {})
+					};
+				}
+
+				var count = filesToGet.length;
+
+				filesToGet.forEach(function (file) {
+					_fs2['default'].readFile(file.path, function (err, data) {
+						if (err) {
+							return cb(err);
+						}
+						results[file.ext] = data.toString();
+
+						if (! --count) {
+							cb(null, results);
+						}
+					});
+				});
+			})();
+
+			if (typeof _ret === 'object') return _ret.v;
 		}
-
-		var count = filesToGet.length;
-
-		filesToGet.forEach(function (file) {
-			_fs2['default'].readFile(file.path, function (err, data) {
-				if (err) {
-					return cb(err);
-				}
-				results[file.ext] = data.toString();
-
-				if (! --count) {
-					cb(null, results);
-				}
-			});
-		});
 	});
 };
 

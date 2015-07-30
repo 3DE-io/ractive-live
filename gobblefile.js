@@ -81,8 +81,9 @@ if ( isProduction ) {
 var index = gobble( 'assets' ).include( '*.html' );
 var preview = gobble( 'preview' ).include( '*.html' );
 var favicon = gobble( 'assets' ).include( 'favicon.ico' );
+var dist = gobble( 'dist' ).moveTo( 'dist' );
 
 // Include other directories as needed...
 // var other = gobble( 'assets/other' ).moveTo( 'other' );
 
-module.exports = gobble( [ bundle, previewbundle, passthru, css, images, index, preview, favicon/*, modules, other */ ] );
+module.exports = gobble( [ bundle, previewbundle, passthru, css, dist, images, index, preview, favicon/*, modules, other */ ] );

@@ -14,49 +14,28 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
+var _mkdirp = require('mkdirp');
+
+var _mkdirp2 = _interopRequireDefault(_mkdirp);
+
 exports['default'] = function (directory, changes, cb) {
-	return cb();
-	var name = _path2['default'].basename(directory);
+	var name = _path2['default'].basename(directory),
+	    keys = Object.keys(changes);
+	var count = keys.length;
 
-	_fs2['default'].readdir(directory, function (err, files) {
-		if (err) {
-			if (err.code === 'ENOENT') {
-				cb(null, {});
-			} else {
-				cb(err);
-			}
-			return;
-		}
+	if (!keys.length) {
+		return cb();
+	}
 
-		var results = {},
-		    filesToGet = [],
-		    extensions = ['html', 'scss', 'js', 'data'];
-
-		extensions.forEach(function (ext) {
-			var fileName = name + '.' + ext;
-			if (~files.indexOf(fileName)) {
-				filesToGet.push({
-					ext: ext,
-					path: _path2['default'].join(directory, fileName)
-				});
-			}
-		});
-
-		if (!filesToGet.length) {
-			return cb(null, {});
-		}
-
-		var count = filesToGet.length;
-
-		filesToGet.forEach(function (file) {
-			_fs2['default'].readFile(file.path, function (err, data) {
+	(0, _mkdirp2['default'])(directory, function () {
+		keys.forEach(function (ext) {
+			var fileName = _path2['default'].join(directory, name + '.' + ext);
+			_fs2['default'].writeFile(fileName, changes[ext], function (err) {
 				if (err) {
 					return cb(err);
 				}
-				results[file.ext] = data.toString();
-
 				if (! --count) {
-					cb(null, results);
+					cb();
 				}
 			});
 		});

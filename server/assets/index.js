@@ -47,8 +47,9 @@ app.post( '*', function( req, res ) {
 		res.status(500).send( 'component path not specified' );
 		return;
 	}
-	saveComponent( path.join( compDir, req.url ), ( err ) => {
+	saveComponent( path.join( compDir, req.url ), req.body, ( err ) => {
 		if ( err ) {
+			console.log( err );
 			res.status(500).send( err );
 		}
 		else {

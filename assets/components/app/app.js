@@ -1,29 +1,46 @@
 import request from 'superagent';
-import Content from './Content';
+import Component from './Component';
 
 const server = 'http://localhost:3333/';
+
+function getPathFromHash() {
+	return location.hash.replace( '#', '' );
+}
 
 component.exports = {
 
 	data: {
-		path: 'app'
+		path: getPathFromHash() || ( location.hash = 'app' )
 	},
 
 	oninit () {
-		this.getComponent( this.get( 'path' ) );
+
+		window.onhashchange = () => {
+			this.set( 'path', getPathFromHash() );
+		};
+
+		// location.hash = this.get( 'path' );
+
+		this.observe( 'path', path => {
+			if ( path ) {
+				this.getComponent( this.get( 'path' ) );
+			}
+		})
 
 		let changes;
 
 		this.observe( 'component.*.code', ( code, old, k, content ) => {
+			if ( code === old || ( !code && !old ) ) { return; }
 			changes = changes || {};
-			changes[ content ] = code;
+			const ext = this.get( 'component' )[content].ext;
+			changes[ ext ] = code;
 		}, { init: false } );
 
-		// setInterval( () => {
-		// 	if ( !changes ) { return; }
-		// 	this.saveComponent( this.get( 'path' ), changes );
-		// 	changes = null;
-		// }, 1000);
+		setInterval( () => {
+			if ( !changes ) { return; }
+			this.saveComponent( this.get( 'path' ), changes );
+			changes = null;
+		}, 1000);
 	},
 
 	getComponent ( path ) {
@@ -31,7 +48,7 @@ component.exports = {
 		request.get( server + path ).end( ( error, response ) => {
 			let component = null;
 			if ( !error ) {
-				component = new Content( response.body );
+				component = new Component( response.body );
 			}
 			this.set( { component, error } );
 		});
@@ -41,7 +58,9 @@ component.exports = {
 		request.post( server + path )
 			.send( changes )
 			.end( ( error, res ) => {
-				this.set( 'error', error.response.error.message );
+				if ( error ) {
+					this.set( 'error', error.response.error.message );
+				}
 			});
 	}
 }

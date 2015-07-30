@@ -1,53 +1,26 @@
 import fs from 'fs';
 import path from 'path';
+import mkdirp from 'mkdirp';
 
 export default function ( directory, changes, cb ) {
-	return cb();
-	const name = path.basename( directory );
+	const name = path.basename( directory ),
+		  keys = Object.keys( changes );
+	let count = keys.length;
 
-	fs.readdir( directory, ( err, files ) => {
-		if ( err ) {
-			if ( err.code === 'ENOENT' ) {
-				cb( null, {} );
-			}
-			else {
-				cb( err );
-			}
-			return;
-		}
+	if ( !keys.length ) { return cb(); }
 
-		const results = {},
-			  filesToGet = [],
-			  extensions = [ 'html', 'scss', 'js', 'data' ];
-
-
-		extensions.forEach( ext => {
-			const fileName = `${name}.${ext}`;
-			if ( ~files.indexOf( fileName ) ) {
-				filesToGet.push({
-					ext,
-					path: path.join( directory, fileName )
-				});
-			}
-		});
-
-		if ( !filesToGet.length ) {
-			return cb( null, {} );
-		}
-
-		let count = filesToGet.length;
-
-		filesToGet.forEach( file => {
-			fs.readFile( file.path, ( err, data ) => {
+	mkdirp( directory, () => {
+		keys.forEach( ext => {
+			const fileName = path.join( directory, `${name}.${ext}` );
+			fs.writeFile( fileName, changes[ext], err => {
 				if ( err ) { return cb( err ); }
-				results[ file.ext ] = data.toString();
-
 				if ( !(--count) ) {
-					cb( null, results );
+					cb();
 				}
 			});
 		});
+	})
 
-	});
+
 }
 

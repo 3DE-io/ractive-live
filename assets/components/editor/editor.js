@@ -4,6 +4,7 @@ import ace from 'brace';
 import javascriptMode from 'brace/mode/javascript';
 import htmlMode from 'brace/mode/html';
 import handlebarsMode from 'brace/mode/handlebars';
+import scssMode from 'brace/mode/scss';
 import cssMode from 'brace/mode/css';
 import theme from 'brace/theme/merbivore_soft';
 
