@@ -1,0 +1,18 @@
+<section class='left'
+	     style='right: {{ 100 - x }}%;'>
+
+	{{yield left}}
+
+</section>
+
+<section class='right'
+	     style='left: {{ x }}%;'>
+
+	{{yield right}}
+
+</section>
+
+<div class='sizer'
+	 style='left: {{ x }}%;'
+	 decorator='splittable:{ x: "x" }'>
+</div>

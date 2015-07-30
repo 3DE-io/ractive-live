@@ -1,0 +1,30 @@
+{
+  "name": "codename-leo",
+  "version": "0.1.0",
+  "description": "starter ractive project",
+  "scripts": {
+    "start": "gobble -e development",
+    "serve": "node_modules/.bin/babel -w server/assets/ --out-dir server/"
+  },
+  "author": "@martypdx",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.13.2",
+    "brace": "^0.5.1",
+    "express": "^4.13.1",
+    "ractive": "^0.7.2",
+    "ractive-events-tap": "^0.2.0",
+    "ractive-transitions-fade": "^0.2.0",
+    "superagent": "^1.2.0"
+  },
+  "devDependencies": {
+    "babel": "^5.8.19",
+    "browserify": "^11.0.0",
+    "gobble-babel": "^5.5.8",
+    "gobble-browserify": "^0.2.0",
+    "gobble-cli": "^0.3.5",
+    "gobble-ractive": "^0.2.0",
+    "gobble-sass": "^0.4.0",
+    "node-sass": "^2.1.1"
+  }
+}

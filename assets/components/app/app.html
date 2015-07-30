@@ -1,0 +1,22 @@
+{{#if component}}
+<vertical-splitter>
+	{{#partial left}}
+
+	 	{{#with component}}
+	 	<quad-splitter>
+	 		{{#partial top-left}} <editor mode='handlebars' content='{{.template}}'/> {{/partial}}
+	 		{{#partial top-right}} <editor mode='css' content='{{.style}}'/> {{/partial}}
+	 		{{#partial bottom-left}} <editor mode='javascript' content='{{.data}}'/> {{/partial}}
+	 		{{#partial bottom-right}} <editor mode='javascript' content='{{.script}}'/> {{/partial}}
+	 	</quad-splitter>
+ 		{{/with}}
+
+	{{/partial}}
+
+	{{#partial right}}
+	 	<preview component='{{component}}'/>
+	{{/partial}}
+
+</vertical-splitter>
+{{/if}}
+<error error='{{error}}'/>

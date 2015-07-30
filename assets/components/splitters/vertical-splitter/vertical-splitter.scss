@@ -1,0 +1,42 @@
+section {
+	position: absolute;
+	overflow: hidden;
+}
+
+.left {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 30%;
+}
+
+.right {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 70%;
+}
+
+.sizer {
+	position: absolute;
+	top: 50%;
+	height: 16px; width: 16px;
+    transform: translate(-9px, -9px) scale(.8);
+
+    background-image: url(../images/horizontal_resize.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 80%;
+    background-color: rgba(176, 224, 230, 0.8);
+    border: 1px solid rgb(70, 130, 180);
+    border-radius: 100%;
+    opacity: .9;
+
+    cursor: col-resize;
+
+    &:hover, &.moving {
+    	transform: translate(-9px, -9px) scale(1.3);
+    	opacity: 1;
+	}
+
+}

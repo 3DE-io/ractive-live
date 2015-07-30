@@ -1,0 +1,11 @@
+.error {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+    margin: 5px 15px;
+	overflow-x: auto;
+
+	color: red;
+	z-index: 1000;
+}
