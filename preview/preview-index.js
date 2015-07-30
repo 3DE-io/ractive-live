@@ -15,6 +15,20 @@ function load() {
 		el: document.body,
 		data: component.data
 	});
+
+	setCss( component.style );
+}
+
+let style;
+
+function setCss( css ) {
+	if ( !window.style ) {
+		window.style = document.createElement( 'style' );
+		window.style.type = 'text/css';
+		document.head.appendChild( window.style );
+	}
+
+    window.style.innerHTML = css;
 }
 
 function getData() {
@@ -35,7 +49,6 @@ function makeComponent() {
 	if ( component.template ) {
 		c.template = component.template;
 	}
-	c.css = component.style;
 
 	return Ractive.extend( c );
 }
