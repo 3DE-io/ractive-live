@@ -8,14 +8,12 @@ console.log( 'gobble_env', gobble.env() );
 
 var isProduction = gobble.env() === 'production';
 
-var env = gobble( 'env/' + gobble.env() )
-	.include( 'env.js' );
+// var env = gobble( 'env/' + gobble.env() )
+// 	.include( 'env.js' );
 
 var js = gobble( 'assets/js' )
 	.exclude( 'vendor/*.js' )
-	.exclude( 'passthru/*.js' );
-
-js = gobble( [ env, js ] )
+	.exclude( 'passthru/*.js' )
 	.transform( 'babel' );
 
 // var babel = gobble( './node_modules/babel/node_modules/babel-core' ).include( 'browser.js' );

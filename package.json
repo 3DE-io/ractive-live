@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "description": "starter ractive project",
   "scripts": {
-    "start": "gobble -e development",
+    "start": "./node_modules/.bin/gobble -e development",
     "babel": "node_modules/.bin/babel -w server/assets/ --out-dir server/",
-    "serve": "nodemon server/index.js test-project"
+    "serve": "node_modules/.bin/nodemon server/index.js test-project"
   },
   "author": "@martypdx",
   "license": "MIT",
@@ -23,11 +23,13 @@
   "devDependencies": {
     "babel": "^5.8.19",
     "browserify": "^11.0.0",
+    "gobble": "^0.10.2",
     "gobble-babel": "^5.5.8",
     "gobble-browserify": "^0.2.0",
     "gobble-cli": "^0.3.5",
     "gobble-ractive": "^0.2.0",
     "gobble-sass": "^0.4.0",
-    "node-sass": "^2.1.1"
+    "node-sass": "^2.1.1",
+    "nodemon": "^1.4.0"
   }
 }
