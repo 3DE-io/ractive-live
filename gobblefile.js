@@ -62,10 +62,14 @@ var bundle = gobble( [ components, js, vendor ] )
 var previewbundle = gobble( 'preview' )
 	.transform( 'babel' )
 	.transform( 'browserify', {
-		entries: './preview-index.js',
+		entries: './main.js',
 		dest: 'preview-bundle.js',
 		debug: true
 	});
+
+// var mainjs = gobble( 'preview' )
+// 	.include( 'main.js' )
+// 	.transform( 'babel', { modules: 'amd' } );
 
 if ( isProduction ) {
 	bundle = bundle.transform( 'uglifyjs' );
@@ -78,10 +82,11 @@ if ( isProduction ) {
 
 var index = gobble( 'assets' ).include( '*.html' );
 var preview = gobble( 'preview' ).include( '*.html' );
+var requirejs = gobble( 'preview' ).include( 'require.js' );
 var favicon = gobble( 'assets' ).include( 'favicon.ico' );
 var dist = gobble( 'dist' ).moveTo( 'dist' );
 
 // Include other directories as needed...
 // var other = gobble( 'assets/other' ).moveTo( 'other' );
 
-module.exports = gobble( [ bundle, previewbundle, passthru, css, dist, images, index, preview, favicon/*, modules, other */ ] );
+module.exports = gobble( [ bundle, previewbundle /*mainjs*/, passthru, css, dist, images, index, preview, requirejs, favicon/*, modules, other */ ] );

@@ -1,5 +1,7 @@
 import Ractive from 'ractive';
 
+
+
 if ( window.component ) {
 	load();
 }

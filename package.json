@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "starter ractive project",
   "scripts": {
-    "start": "./node_modules/.bin/gobble -e development",
+    "start": "./node_modules/.bin/gobble -p 4444 -e development",
     "babel": "node_modules/.bin/babel -w server/assets/ --out-dir server/",
     "serve": "node_modules/.bin/nodemon server/index.js test-project"
   },
