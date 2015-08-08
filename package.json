@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "description": "starter ractive project",
   "scripts": {
-    "start": "gobble -e development",
+    "start": "gobble -p 4444 -e development",
     "babel": "node_modules/.bin/babel -w server/assets/ --out-dir server/",
-    "serve": "nodemon server/index.js test-project"
+    "serve": "nodemon server/index.js ~/test-project"
   },
   "author": "@martypdx",
   "license": "MIT",
