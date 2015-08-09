@@ -1,0 +1,12 @@
+<p on-click='sayHello()'>
+	howdy {{place}}
+</p>
+<ul>
+	{{#each items}}
+	<li><item letter='{{this}}'/></li>
+	{{/each}}
+	<li>
+		<input value='{{newItem}}'>
+		<button on-click='addItem()'>add</button>
+	</li>
+</ul>

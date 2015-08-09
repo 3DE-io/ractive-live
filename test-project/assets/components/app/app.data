@@ -1,0 +1,4 @@
+{
+	place: 'world',
+	items: [ 'a', 'b', 'c' ]
+}

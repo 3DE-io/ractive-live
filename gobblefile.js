@@ -45,7 +45,7 @@ var components = gobble( 'assets/components' )
 	.transform( makeComponent )
 	.transform( 'ractive', { type: 'cjs' } );
 
-var excludeModules = isProduction ? [] : [ 'ractive' /* other modules */ ];
+var excludeModules = isProduction ? [] : [ 'ractive', 'superagent' ];
 
 var bundle = gobble( [ components, js, vendor ] )
 	.transform( 'browserify', {
@@ -63,8 +63,13 @@ var previewbundle = gobble( 'preview' )
 	.transform( 'babel' )
 	.transform( 'browserify', {
 		entries: './main.js',
+		configure: function ( bundle ) {
+			excludeModules.forEach( function( module ) {
+				bundle.exclude( module );
+			});
+		},
 		dest: 'preview-bundle.js',
-		debug: true
+		debug: false
 	});
 
 // var mainjs = gobble( 'preview' )
@@ -75,18 +80,19 @@ if ( isProduction ) {
 	bundle = bundle.transform( 'uglifyjs' );
 }
 
-// var modules = gobble( 'assets/js/passthru' );
-// if ( !isProduction ) {
-// 	modules = modules.transform( bundleModules, { modules: excludeModules });
-// }
+var modules = gobble( 'assets/js/passthru' );
+if ( !isProduction ) {
+	modules = modules.transform( bundleModules, { modules: excludeModules });
+}
 
 var index = gobble( 'assets' ).include( '*.html' );
 var preview = gobble( 'preview' ).include( '*.html' );
-var requirejs = gobble( 'preview' ).include( 'require.js' );
+// var requirejs = gobble( 'preview' ).include( 'require.js' );
 var favicon = gobble( 'assets' ).include( 'favicon.ico' );
 var dist = gobble( 'dist' ).moveTo( 'dist' );
 
 // Include other directories as needed...
 // var other = gobble( 'assets/other' ).moveTo( 'other' );
 
-module.exports = gobble( [ bundle, previewbundle /*mainjs*/, passthru, css, dist, images, index, preview, requirejs, favicon/*, modules, other */ ] );
+module.exports = gobble( [ bundle, previewbundle /*mainjs*/, passthru, css, dist, images, index, preview, /*requirejs,*/ favicon, modules 
+	/*, other */ ] );
